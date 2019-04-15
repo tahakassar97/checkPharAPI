@@ -15,7 +15,7 @@ var mongoose = require('mongoose')
 var remote = 'mongodb://admin:taha1234@ds125526.mlab.com:25526/pharmacy_db'
 var local = 'mongodb://127.0.0.1:27017/pharmacy'
 
-mongoose.connect(local, { useNewUrlParser: true }, (err) => {
+mongoose.connect(remote, { useNewUrlParser: true }, (err) => {
   if (err) {
     console.log(err);
   } else {
