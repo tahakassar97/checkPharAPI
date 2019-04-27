@@ -14,39 +14,25 @@ router.get('/open', function(req, res){
         arr.push(data[phar])
       }
     }
-    res.send(arr)
+    res.status(200).send(arr)
   }
 })
 })
 
-router.post('/near', (req, res) => {
-  var r = []
-  Phar.find((err, data) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      data.forEach(element => {
-        var d = Math.sqrt((req.body.x- element.x)*(req.body.x- element.x) + (req.body.y- element.y)*(req.body.y- element.y))
-        if(d <= req.body.n)
-        r.push(element)
-      });
-      res.send(r)
-    }
-  })
-})
+
 router.post('/login', (req, res)=> {
-  Phar.findOne({username: req.body.username, password: req.body.password}, (err, data) =>{
+  Phar.findOne({username: req.body.username, password: req.body.password},
+    ['name', '_id', 'pharmacist_name', 'location', 'mobile', 'phone', 'username', 'openDay']
+    , (err, data) =>{
     if (err) {
       console.log(err)
       res.status(400).send()}
       else{
         if(data == null){
           res.status(401).send()
-        } else
-      res.status(200).send({
-        "name": data.name,
-        "_id": data._id
-      })
+        } else {
+      res.status(200).send(data)
+        }
     }
 })
 })
@@ -61,7 +47,7 @@ router.post('/edit', function(req, res){
 })
 
 router.post('/register', function(req, res, next) {
-  Phar.findOne({ username: req.body.username }, (err, data) => {
+  Phar.findOne({ username: req.body.username, name: req.body.name }, (err, data) => {
     if (err) {
       res.status(400).send('error')
     } else {
@@ -99,4 +85,20 @@ router.post('/newreplay', function(req, res){
     }
   })
 })
+router.post('/near', (req, res) => {
+  var r = []
+  Phar.find((err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      data.forEach(element => {
+        var d = Math.sqrt((req.body.x- element.x)*(req.body.x- element.x) + (req.body.y- element.y)*(req.body.y- element.y))
+        if(d <= req.body.n)
+        r.push(element)
+      });
+      res.send(r)
+    }
+  })
+})
+
 module.exports = router;

@@ -44,10 +44,7 @@ router.post('/login', function(req, res){
         if(data == null){
           res.status(401).send()
         } else
-      res.status(200).send({
-        "name": data.name,
-        "_id": data._id
-      })
+      res.status(200).send({data})
       }
   })
 })
@@ -62,7 +59,7 @@ router.post('/edit', function(req, res){
   })
 })
 
-/*router.get('/ask', function(req, res ) {
+router.get('/ask', function(req, res ) {
 User.find({}, ["name", "asks"], (err, data) =>{
     if(err){
       res.status(400).send('error')
@@ -70,7 +67,7 @@ User.find({}, ["name", "asks"], (err, data) =>{
     else
     res.send(data)
   })
-})*/
+})
 
 router.post('/newask', function(req, res){
   var ask = {};
@@ -86,8 +83,17 @@ router.post('/newask', function(req, res){
     if(err)
     res.status(400).send(err)
     else
-    res.send(data)
+    res.status(200).send({data})
   })
 })
+router.get('/', function(req, res, next) {
+  User.find((err, data) => {
+    if (err) {
+      res.status(400).send('error')
+    } else {
+      res.send(data)
+    }
+  })
+});
 
 module.exports = router;

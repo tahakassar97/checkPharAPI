@@ -50,8 +50,17 @@ router.post('/add', (req, res) => {
       }
   })
   })
+  router.delete('/deletePhar', (req, res)=>{
+    phar.remove({name: req.body.name}, (err)=>{
+      if(err){
+        res.status(400).send()
+      }
+        else
+        res.status(200).send()
+    })
+  }) 
 
-  router.post('/edit', function(req, res){
+ router.post('/edit', function(req, res){
     adm.findByIdAndUpdate(req.body.id, req.body, (err, data) => {
       if (err) {
         res.status(400).send('error')}
