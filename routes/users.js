@@ -29,7 +29,9 @@ router.post('/register', function(req, res, next) {
         res.send(err);
       })
       } else {
-        res.send('already registered')
+        res.send({
+          'message':'already registered'
+        })
       }
     }
   })

@@ -3,7 +3,7 @@ var router = express.Router();
 
 var Phar = require('../models/pharmacy')
 
-router.get('/open', function(req, res){
+router.post('/open', function(req, res){
   Phar.find((err, data) => {
     if(err) {
     res.status(400).send('error')

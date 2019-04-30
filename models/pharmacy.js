@@ -6,6 +6,8 @@ const phar = mongoose.Schema({
     password: String,
     pharmacist_name: String,
     location: String,
+    x: String,
+    y: String,
     openDay: [
         {
             day: String,
