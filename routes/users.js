@@ -3,6 +3,7 @@ var router = express.Router();
 
 var User = require('../models/users')
 
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   User.find((err, data) => {
@@ -62,7 +63,7 @@ router.post('/edit', function(req, res){
 })
 
 router.get('/ask', function(req, res ) {
-User.find({}, ["name", "asks"], (err, data) =>{
+User.find({}, ["name", "asks" ], (err, data) =>{
     if(err){
       res.status(400).send('error')
     }
@@ -84,8 +85,9 @@ router.post('/newask', function(req, res){
   }, (err, data)=>{
     if(err)
     res.status(400).send(err)
-    else
+    else{
     res.status(200).send({data})
+  }
   })
 })
 router.get('/', function(req, res, next) {

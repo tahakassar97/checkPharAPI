@@ -3,6 +3,7 @@ var router = express.Router();
 
 var adm = require('../models/admin')
 var phar = require('../models/pharmacy')
+var user = require('../models/users')
 
 router.post('/add', (req, res) => {
     new phar(req.body)
@@ -52,6 +53,15 @@ router.post('/add', (req, res) => {
   })
   router.delete('/deletePhar', (req, res)=>{
     phar.remove({name: req.body.name}, (err)=>{
+      if(err){
+        res.status(400).send()
+      }
+        else
+        res.status(200).send()
+    })
+  }) 
+  router.delete('/deleteUsers', (req, res)=>{
+    user.remove((err)=>{
       if(err){
         res.status(400).send()
       }

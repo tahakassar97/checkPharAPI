@@ -15,7 +15,8 @@ const user = mongoose.Schema({
         replays: [{
             bodyReplay: String,
             dateTime: Date,
-            pharmacist_id: String
+            pharmacist_id: String,
+            pharmacist_name: String
         }]
     }]
 })

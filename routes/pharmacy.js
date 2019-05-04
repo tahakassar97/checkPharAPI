@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Phar = require('../models/pharmacy')
+var user = require('../models/users')
 
 router.post('/open', function(req, res){
   Phar.find((err, data) => {
@@ -69,11 +70,12 @@ router.post('/register', function(req, res, next) {
 
 router.post('/newreplay', function(req, res){
   var replay = {};
-  replay.bodyReplay = req.body.replay;
+  replay.bodyReplay = req.body.bodyreplay;
   replay.dateTime  = new Date();
-  replay.pharmacist_id = req.body.ph_id;
+  replay.pharmacist_id = req.body.pharmacist_id;
+  replay.pharmacist_name = req.body.pharmacist_name;
 
-  Phar.findOneAndUpdate({ _id: req.body.userID, "asks._id": req.body.askID }, {
+  user.findOneAndUpdate({ _id: req.body._id, "asks._id": req.body.askID }, {
     $push: {
       "asks.0.replays": replay
     }
@@ -81,7 +83,7 @@ router.post('/newreplay', function(req, res){
     if (err) {
       res.status(400).send(err)
     } else {
-      res.send(data)
+      res.send({data})
     }
   })
 })
