@@ -102,8 +102,7 @@ router.post('/add', (req, res) => {
   })
 
   router.post('/deleteReply', function(req, res){
-    Users.update({},
-    { $pull: { "asks.$.replays" : { _id: req.body.id } } }, (err) => {
+    user.update({}, { $pull: { "asks.$.replays" : { _id: req.body.id } } }, (err) => {
         if (err) {
             return res.status(404).json({ message: 'Error' });
         }
@@ -115,7 +114,7 @@ router.post('/add', (req, res) => {
   });
   
 router.post('/deletePost', function(req, res){
-  Users.update({},
+  user.update({},
   { $pull: { "asks" : { _id: req.body.id } } }, (err) => {
       if (err) {
           return res.status(404).json({ message: 'Error' });
