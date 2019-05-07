@@ -77,7 +77,7 @@ router.post('/newreplay', function(req, res){
 
   user.findOneAndUpdate({ _id: req.body._id, "asks._id": req.body.askID }, {
     $push: {
-      "asks.0.replays": replay
+      "asks.$.replays": replay
     }
   }, (err, data) => {
     if (err) {
@@ -87,6 +87,8 @@ router.post('/newreplay', function(req, res){
     }
   })
 })
+
+
 router.post('/near', (req, res) => {
   var r = []
   Phar.find((err, data) => {

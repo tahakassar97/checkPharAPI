@@ -60,6 +60,7 @@ router.post('/add', (req, res) => {
         res.status(200).send()
     })
   }) 
+  
   router.delete('/deleteUsers', (req, res)=>{
     user.remove((err)=>{
       if(err){
@@ -126,4 +127,13 @@ router.post('/deletePost', function(req, res){
   })
 })
 
+router.delete('/removePost', function(req, res){
+  user.remove({"asks": {_id: req.body.id}} , (err)=>{
+    if(err){
+      res.status(400).send()
+    }
+      else
+      res.status(200).send()
+  })
+})
   module.exports = router;
