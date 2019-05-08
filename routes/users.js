@@ -75,7 +75,7 @@ User.find({}, ["name", "asks" ], (err, data) =>{
 router.post('/newask', function(req, res){
   var ask = {};
   ask.questions = req.body.questions
-  ask.dateTime = new Date()
+  ask.dateTime = req.body.dateTime
   ask.Type = req.body.Type
   ask.replays = []
   User.findByIdAndUpdate(req.body.id, {

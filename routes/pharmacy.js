@@ -71,7 +71,7 @@ router.post('/register', function(req, res, next) {
 router.post('/newreplay', function(req, res){
   var replay = {};
   replay.bodyReplay = req.body.bodyreplay;
-  replay.dateTime  = new Date();
+  replay.dateTime  = req.body.dateTime;
   replay.pharmacist_id = req.body.pharmacist_id;
   replay.pharmacist_name = req.body.pharmacist_name;
 
