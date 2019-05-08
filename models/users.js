@@ -10,11 +10,11 @@ const user = mongoose.Schema({
     birthDate: String,
     asks: [{
         questions: String,
-        dateTime: Date,
+        dateTime: String,
         Type:String,
         replays: [{
             bodyReplay: String,
-            dateTime: Date,
+            dateTime: String,
             pharmacist_id: String,
             pharmacist_name: String
         }]
