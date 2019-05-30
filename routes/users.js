@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
   })
 });
 
-router.post('/register', function(req, res, next) {
+router.post('/register', function(req, res) {
   User.findOne({ username: req.body.username }, (err, data) => {
     if (err) {
       res.status(400).send('error')
@@ -63,7 +63,7 @@ router.post('/edit', function(req, res){
 })
 
 router.get('/ask', function(req, res ) {
-User.find({}, ["name", "asks" ], (err, data) =>{
+  User.find({}, ["name", "asks" ], (err, data) =>{
     if(err){
       res.status(400).send('error')
     }
@@ -78,11 +78,8 @@ router.post('/newask', function(req, res){
   ask.dateTime = req.body.dateTime
   ask.Type = req.body.Type
   ask.replays = []
-  User.findByIdAndUpdate(req.body.id, {
-   $push: {
-     asks: ask
-   }
-  }, (err, data)=>{
+  
+  User.findByIdAndUpdate(req.body.id, { $push: {asks: ask}}, (err, data)=>{
     if(err)
     res.status(400).send(err)
     else{

@@ -3,6 +3,7 @@ var router = express.Router();
 
 var Phar = require('../models/pharmacy')
 var user = require('../models/users')
+var adm = require('../models/admin')
 
 router.get('/open', function(req, res){
   Phar.find((err, data) => {
@@ -37,8 +38,23 @@ router.post('/login', (req, res)=> {
     }
 })
 })
+
 router.post('/edit', function(req, res){
   Phar.findByIdAndUpdate(req.body.id, req.body, (err, data) => {
+    if (err) {
+      res.status(400).send('error')}
+      else{
+        res.status(200).send(data)
+      }
+  })
+})
+
+router.post('/sendReport', function(req, res){
+  var report = {}
+  report.pharmacist_name = req.body.pharmacist_name
+  report.post_id = req.body.post_id
+
+  adm.updateOne({$push: {reports: report }}, (err, data) => {
     if (err) {
       res.status(400).send('error')}
       else{

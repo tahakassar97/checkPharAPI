@@ -71,6 +71,16 @@ router.post('/add', (req, res) => {
     })
   }) 
 
+  router.delete('/deleteAdmins', (req, res)=>{
+    adm.remove((err)=>{
+      if(err){
+        res.status(400).send()
+      }
+        else
+        res.status(200).send()
+    })
+  }) 
+
   router.delete('/deleteUser', (req, res)=>{
     user.remove({_id: req.body.id}, (err)=>{
       if(err){
@@ -112,6 +122,18 @@ router.post('/add', (req, res) => {
     })
   })
 
+  router.get('/reports', function(req, res) {
+    adm.find({}, ["reports"] , (err, data) =>{
+      if(err){
+        res.status(400).send('error')
+      }
+      else
+      res.send(data)
+    })
+  });
+
+
+
   router.post('/deleteReply', function(req, res){
     user.update({}, { $pull: { "asks.0.replays" : { _id: req.body.id } } }, (err) => {
         if (err) {
@@ -125,19 +147,21 @@ router.post('/add', (req, res) => {
   });
   
 router.post('/deletePost', function(req, res){
-  user.update({}, { $pull: { "asks" : { _id: req.body.id } } }, (err) => {
+
+  user.findByIdAndUpdate(req.body.userID, { $pull: { "asks" : { _id: req.body.id } } }, (err) => {
       if (err) {
-          return res.status(404).json({ message: 'Error' });
-      }
-      return res.status(200).json({
+          res.status(404).json({ message: 'Error' });
+      } else {
+       res.status(200).json({
           success: true,
           message: 'success'
-      });
+      })
+    }
   })
 })
 
 router.delete('/removePost', function(req, res){
-  user.remove({"asks": {_id: req.body.id}} , (err)=>{
+  user.remove({"asks._id": req.body.id} , (err)=>{
     if(err){
       res.status(400).send()
     }
