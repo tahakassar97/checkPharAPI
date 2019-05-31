@@ -67,8 +67,11 @@ router.get('/ask', function(req, res ) {
     if(err){
       res.status(400).send('error')
     }
-    else
+    else{
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.header("Content-Type", "application/json; charset=utf-8");
     res.send(data)
+    }
   })
 })
 
