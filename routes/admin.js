@@ -25,6 +25,7 @@ router.post('/add', (req, res) => {
       }
     })
   })
+
   router.post('/editOpen/:id', (req, res) => {
     phar.findByIdAndUpdate(req.params.id, req.body, (err, data) => {
       if (err) {
@@ -135,7 +136,8 @@ router.post('/add', (req, res) => {
 
 
   router.post('/deleteReply', function(req, res){
-    user.update({}, { $pull: { "asks.0.replays" : { _id: req.body.id } } }, (err) => {
+      user.findOneAndUpdate({ _id: req.body.userID, "asks._id": req.body.askID}, 
+       { $pull: { "asks.$.replays" : { _id: req.body.id } } }, (err) => {
         if (err) {
             return res.status(404).json({ message: 'Error' });
         }
@@ -147,7 +149,6 @@ router.post('/add', (req, res) => {
   });
   
 router.post('/deletePost', function(req, res){
-
   user.findByIdAndUpdate(req.body.userID, { $pull: { "asks" : { _id: req.body.id } } }, (err) => {
       if (err) {
           res.status(404).json({ message: 'Error' });
@@ -160,8 +161,10 @@ router.post('/deletePost', function(req, res){
   })
 })
 
-router.delete('/removePost', function(req, res){
-  user.remove({"asks._id": req.body.id} , (err)=>{
+router.post('/removeReport', function(req, res){
+  adm.findOneAndUpdate({} , {
+    $pull : {reports: {_id: req.body.reportID}}
+  }, (err)=>{
     if(err){
       res.status(400).send()
     }
