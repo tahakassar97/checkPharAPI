@@ -5,6 +5,37 @@ var Phar = require('../models/pharmacy')
 var user = require('../models/users')
 var adm = require('../models/admin')
 
+
+var contains = require("string-contains");
+
+
+router.get('/', function(req, res, next) {
+  Phar.find((err, data) => {
+    if (err) {
+      res.status(400).send('error')
+    } else {
+      res.send(data)
+    }
+  })
+});
+
+
+router.post('/conf', function(req  , res){
+  Phar.findOne({name : req.body.name}, (err, data) =>{
+    if(err){
+      res.status(400).send('error')
+    }
+    else{
+      if(data == null){
+      res.status(404).send()
+      }
+      else {
+        res.status(200).send()
+      }
+    }
+  })
+})
+
 router.get('/open', function(req, res){
   Phar.find((err, data) => {
     if(err) {
@@ -119,6 +150,30 @@ router.post('/near', (req, res) => {
       res.send(r)
     }
   })
+})
+
+router.get('/open1', function(req, res){
+  date = new Date()
+  date1 = date.toString()
+  Phar.find((err, data) => {
+    if(err) {
+    res.status(400).send('error')
+  }else{
+    var arr = [];
+    for (var phar = 0; phar < data.length; phar++) {
+      for(var i = 0; i < data[phar].openDay.length; i++){
+        time1 = date1.substr(16, 2)
+        day1 = date1.substr(0, 3)
+        time2 = parseInt(time1, 10)
+        time3 = parseInt(data[phar].openDay[i].time, 10)
+      if (contains(day1, data[phar].openDay[i].day) && contains(time2, time3)) {
+        arr.push(data[phar])
+      }
+    }
+  }
+    res.status(200).send(arr)
+  }
+})
 })
 
 module.exports = router;

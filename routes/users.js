@@ -62,23 +62,23 @@ router.post('/edit', function(req, res){
   })
 })
 
-router.get('/ask', function(req, res ) {
+router.get('/ask',function(req, res ) {
   User.find({}, ["name", "asks" ], (err, data) =>{
     if(err){
       res.status(400).send('error')
     }
     else{
-    res.setHeader("Content-Type", "application/json; charset=utf-8");
-    res.header("Content-Type", "application/json; charset=utf-8");
-    res.send(data)
+   // res.setHeader("Content-Type", "application/json; charset=utf-8");
+   // res.header("Content-Type", "application/json; charset=utf-8");
+    res.send(data);
     }
   })
 })
 
-router.post('/newask', function(req, res){
+router.post('/newask' ,function(req, res){
   var ask = {};
   ask.questions = req.body.questions
-  ask.dateTime = req.body.dateTime
+  ask.dateTime = new Date()
   ask.Type = req.body.Type
   ask.replays = []
   

@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
@@ -16,7 +17,7 @@ var mongoose = require('mongoose')
 var remote = 'mongodb://admin:taha1234@ds125526.mlab.com:25526/pharmacy_db'
 var local = 'mongodb://127.0.0.1:27017/pharmacy'
 
-mongoose.connect(remote, { useNewUrlParser: true }, (err) => {
+mongoose.connect(local, { useNewUrlParser: true }, (err) => {
   if (err) {
     console.log(err);
   } else {
@@ -50,8 +51,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  res.header("Content-Type", "application/json; charset=utf-16");
-  res.setHeader("Content-Type", "application/json; charset=utf-16");
+
   // render the error page
   res.status(err.status || 500);
   res.render('error');
